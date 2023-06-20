@@ -10,9 +10,6 @@ import static com.codeborne.selenide.Selenide.$x;
 
 public class RegistryPage {
 
-  @As("Заголовок [Регистрация]")
-  private final SelenideElement registryHeader = $x(".//h2[text()='Регистрация']");
-
   @As("Поле [Имя]")
   private static final SelenideElement nameField = $x(".//label[text()='Имя']/following::input[1]");
 
@@ -47,17 +44,17 @@ public class RegistryPage {
   }
 
   @Step("Проверяем наличие надписи [Некорректный пароль]")
-  public static void checkWrongPassSign(){
+  public static void checkWrongPassSignIsDisplayed(){
     wrongPasswordSign.shouldBe(exist);
   }
 
   @Step("Нажимаем кнопку [Зарегистрироваться]")
-  public static void clickRegistryButton(){
+  public static void clickRegistryButtonOnRegistryPage(){
     registryButton.shouldBe(visible).click();
   }
 
   @Step("Нажимаем кнопку [Войти]")
-  public static void clickLoginButton(){
+  public static void clickLoginButtonOnRegistryPage(){
     loginButton.shouldBe(visible).click();
   }
 
@@ -66,6 +63,6 @@ public class RegistryPage {
     fillInNameField(nameValue);
     fillInEmailField(emailValue);
     fillInPasswordField(passwordValue);
-    clickRegistryButton();
+    clickRegistryButtonOnRegistryPage();
   }
 }

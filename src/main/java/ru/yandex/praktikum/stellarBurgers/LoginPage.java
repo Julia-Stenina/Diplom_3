@@ -18,14 +18,17 @@ public class LoginPage {
   @As("Поле [Пароль]")
   private static final SelenideElement passwordField = $x(".//input[@name='Пароль']");
 
-  @As("Кнопка [Вход]")
+  @As("Кнопка [Войти]")
   private static final SelenideElement loginButton = $x(".//button[text()='Войти']");
 
   @As("Кнопка [Зарегистрироваться]")
   private static final SelenideElement registryButton = $x(".//a[text()='Зарегистрироваться']");
 
+  @As("Кнопка [Восстановить пароль]")
+  private static final SelenideElement restorePasswordButton = $x(".//a[text()='Восстановить пароль']");
+
   @Step("Проверяем наличие надписи [Вход]")
-  public static void checkEntranceSign(){
+  public static void checkEntranceSignIsDisplayed(){
     entranceSign.shouldBe(visible);
   }
 
@@ -40,20 +43,25 @@ public class LoginPage {
   }
 
   @Step("Нажимаем кнопку [Войти]")
-  public static void clickLoginButton(){
+  public static void clickLoginButtonOnLoginPage(){
     loginButton.shouldBe(visible).click();
   }
 
   @Step("Нажимаем кнопку [Зарегистрироваться]")
-  public static void clickRegistryButton(){
+  public static void clickRegistryButtonOnLoginPage(){
     registryButton.shouldBe(visible).click();
+  }
+
+  @Step("Нажимаем кнопку [Восстановить пароль]")
+  public static void clickRestorePasswordButton(){
+    restorePasswordButton.shouldBe(visible).click();
   }
 
   @Step("Заполняем форму входа")
   public static void fillInLoginForm(String emailValue, String passwordValue){
-    checkEntranceSign();
+    checkEntranceSignIsDisplayed();
     fillInEmailField(emailValue);
     fillInPasswordField(passwordValue);
-    clickLoginButton();
+    clickLoginButtonOnLoginPage();
   }
 }
