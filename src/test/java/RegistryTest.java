@@ -1,15 +1,16 @@
+import io.qameta.allure.Description;
 import io.qameta.allure.Step;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.yandex.praktikum.stellarBurgers.LoginPage;
-import ru.yandex.praktikum.stellarBurgers.MainPageStellarBurgers;
-import ru.yandex.praktikum.stellarBurgers.RegistryPage;
-import ru.yandex.praktikum.stellarBurgers.UserClient;
 
-import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.open;
+import static ru.yandex.praktikum.stellarBurgers.LoginPage.*;
+import static ru.yandex.praktikum.stellarBurgers.MainPage.*;
+import static ru.yandex.praktikum.stellarBurgers.RegistryPage.*;
+import static ru.yandex.praktikum.stellarBurgers.UserClient.deleteUser;
 
 public class RegistryTest {
 
@@ -19,32 +20,36 @@ public class RegistryTest {
   private String wrongPassword = "12345";
 
   @Before
-  public void setUp(){
+  @Description("Открываем сайт")
+  public void setUp() {
     open("https://stellarburgers.nomoreparties.site/");
   }
 
   @After
-  public void deleteUser() {
+  @Description("Удаляем пользователя")
+  public void tearDown() {
     RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
-    UserClient.deleteUser("{\"email\": \"" + emailValue + "\", \"password\": \"" + correctPassword + "\"}");
+    deleteUser("{\"email\": \"" + emailValue + "\", \"password\": \"" + correctPassword + "\"}");
   }
 
   @Test
-  @Step("Проверяем успешную регистрацию пользователя")
+  @DisplayName("Check success registry")
+  @Description("Проверяем успешную регистрацию пользователя")
   public void checkSuccessfulRegistry() {
-    MainPageStellarBurgers.clickLogInButton();
-    LoginPage.clickRegistryButton();
-    RegistryPage.fillInRegistryForm(nameValue, emailValue, correctPassword);
-    LoginPage.fillInLoginForm(emailValue, correctPassword);
-    MainPageStellarBurgers.checkPlaceOrderButton();
+    clickLoginButtonOnMainPage();
+    clickRegistryButtonOnLoginPage();
+    fillInRegistryForm(nameValue, emailValue, correctPassword);
+    fillInLoginForm(emailValue, correctPassword);
+    checkPlaceOrderButtonIsDisplayed();
   }
 
   @Test
-  @Step("Проверяем регистрацию пользователя с некорректным паролем")
-  public void checkRegistryWIthWrongPassword(){
-    MainPageStellarBurgers.clickLogInButton();
-    LoginPage.clickRegistryButton();
-    RegistryPage.fillInRegistryForm(nameValue, emailValue, wrongPassword);
-    RegistryPage.checkWrongPassSign();
+  @DisplayName("Check registry with wrong password")
+  @Description("Проверяем регистрацию пользователя с некорректным паролем")
+  public void checkRegistryWIthWrongPassword() {
+    clickLoginButtonOnMainPage();
+    clickRegistryButtonOnLoginPage();
+    fillInRegistryForm(nameValue, emailValue, wrongPassword);
+    checkWrongPassSignIsDisplayed();
   }
 }
