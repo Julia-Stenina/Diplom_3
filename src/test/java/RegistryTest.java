@@ -1,10 +1,10 @@
 import io.qameta.allure.Description;
-import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.yandex.praktikum.utills.BrowserConfigurator;
 
 import static com.codeborne.selenide.Selenide.open;
 import static ru.yandex.praktikum.stellarBurgers.LoginPage.*;
@@ -22,6 +22,8 @@ public class RegistryTest {
   @Before
   @Description("Открываем сайт")
   public void setUp() {
+
+    BrowserConfigurator.setUpBrowser("yandex");
     open("https://stellarburgers.nomoreparties.site/");
   }
 

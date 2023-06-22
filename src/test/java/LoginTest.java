@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.yandex.praktikum.utills.BrowserConfigurator;
 
 import static com.codeborne.selenide.Selenide.open;
 import static ru.yandex.praktikum.stellarBurgers.HeaderPage.clickPersonalAccountButton;
@@ -24,6 +25,7 @@ public class LoginTest {
     RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
     createUser("{\"email\": \"" + emailValue + "\", \"password\": \"" + passwordValue + "\", " +
             "\"name\": \"" + nameValue + "\"}");
+    BrowserConfigurator.setUpBrowser("yandex");
     open("https://stellarburgers.nomoreparties.site/");
   }
 
