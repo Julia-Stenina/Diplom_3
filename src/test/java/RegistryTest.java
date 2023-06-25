@@ -1,18 +1,16 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.praktikum.utills.BrowserConfigurator;
+import ru.yandex.praktikum.utills.DeleteUser;
 
 import static com.codeborne.selenide.Selenide.open;
 import static ru.yandex.praktikum.stellarBurgers.LoginPage.*;
 import static ru.yandex.praktikum.stellarBurgers.MainPage.*;
 import static ru.yandex.praktikum.stellarBurgers.RegistryPage.*;
-import static ru.yandex.praktikum.api.UserClient.deleteUser;
 
-public class RegistryTest {
+public class RegistryTest extends DeleteUser {
 
     private String nameValue = "Julia";
     private String emailValue = "Julia.H@yandex.ru";
@@ -25,14 +23,6 @@ public class RegistryTest {
 
         BrowserConfigurator.setUpBrowser("yandex");
         open("https://stellarburgers.nomoreparties.site/");
-    }
-
-    @After
-    @Description("Удаляем пользователя")
-    public void tearDown() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
-        deleteUser(
-            "{\"email\": \"" + emailValue + "\", \"password\": \"" + correctPassword + "\"}");
     }
 
     @Test

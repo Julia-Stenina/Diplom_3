@@ -1,10 +1,11 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.yandex.praktikum.api.CreateUserPayload;
 import ru.yandex.praktikum.utills.BrowserConfigurator;
+import ru.yandex.praktikum.utills.DeleteUser;
 
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.sleep;
@@ -15,7 +16,7 @@ import static ru.yandex.praktikum.stellarBurgers.PersonalAccountPage.*;
 import static ru.yandex.praktikum.api.UserClient.*;
 
 
-public class NavigationTest {
+public class NavigationTest extends DeleteUser {
 
     private String nameValue = "Julia";
     private String emailValue = "Julia.H@yandex.ru";
@@ -25,20 +26,13 @@ public class NavigationTest {
     @Description("Создаем пользователя, открываем сайт и авторизуемся")
     public void setup() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
-        createUser("{\"email\": \"" + emailValue + "\", \"password\": \"" + passwordValue + "\", " +
-            "\"name\": \"" + nameValue + "\"}");
+        CreateUserPayload createUserPayload = new CreateUserPayload(emailValue, passwordValue, nameValue);
+        createUser(createUserPayload);
         BrowserConfigurator.setUpBrowser("yandex");
         open("https://stellarburgers.nomoreparties.site/");
         clickLoginButtonOnMainPage();
         fillInLoginForm(emailValue, passwordValue);
         checkPlaceOrderButtonIsDisplayed();
-    }
-
-    @After
-    @Description("Удаляем пользователя")
-    public void tearDown() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
-        deleteUser("{\"email\": \"" + emailValue + "\", \"password\": \"" + passwordValue + "\"}");
     }
 
     @Test

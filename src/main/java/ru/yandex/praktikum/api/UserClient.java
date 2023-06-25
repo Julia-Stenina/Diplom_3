@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 public class UserClient {
 
     @Step("Создаём пользователя")
-    public static void createUser(String json) {
+    public static void createUser(CreateUserPayload json) {
         given().header("Content-type", "application/json")
             .and()
             .body(json)
@@ -17,7 +17,7 @@ public class UserClient {
     }
 
     @Step("Удаляем пользователя")
-    public static void deleteUser(String json) {
+    public static void deleteUser(LoginUserPayload json) {
         Response response = given().header("Content-type", "application/json").and().body(json)
             .when().post("/api/auth/login");
         int code = response.statusCode();
